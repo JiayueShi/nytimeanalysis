@@ -1,2 +1,2 @@
-# nytimeanalysis
-Analyze NY Times attitudes towards China from NLP prospective.
+# nytimes-analysis
+Analyze NY Times attitudes towards China in NLP prospective.
