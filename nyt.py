@@ -57,34 +57,30 @@ def parse_articles(articles):
     return news
 
 
-def get_articles(date, query):
+def get_articles(begin_date, end_date, query):
     '''
     This function accepts a year in string format (e.g.'1980')
     and a query (e.g.'Amnesty International') and it will
     return a list of parsed articles (in dictionaries)
     for that year.
     '''
-    # api = articleAPI('Tmsq1B5GKZ9O8WLqYXxHEb6UG6Q6YE2k')
-    api = articleAPI('ARZ7pk2xuOAxjQts3LftoBXfi1PWt6s7')
+    api = articleAPI('Tmsq1B5GKZ9O8WLqYXxHEb6UG6Q6YE2k')
+    # api = articleAPI('ARZ7pk2xuOAxjQts3LftoBXfi1PWt6s7')
     all_articles = []
     for i in range(0, 100):
-        articles = api.search(q=query, page=i, begin_date=20180101, end_date=20181231)
+        articles = api.search(q=query, page=i, begin_date=begin_date, end_date=end_date)
         articles = parse_articles(articles)
         all_articles = all_articles + articles
         time.sleep(6)
     return all_articles
 
 
-China_year = get_articles('2018', 'Japan')
-# for i in range(2000, 2019):
-#     Amnesty_year = get_articles('2018', 'China')
-#     Amnesty_all = Amnesty_all + Amnesty_year
+cur_country = 'Russia'
+begin_date, end_date = 20180101, 20181231
+country_year = get_articles(begin_date, end_date, cur_country)
 
-
-# print(China_year)
-
-keys = China_year[0].keys()
-with open('./data/japan-mentions2018.csv', 'w') as output_file:
+keys = country_year[0].keys()
+with open('./data/'+ cur_country.lower() +'-mentions2018.csv', 'w') as output_file:
     dict_writer = csv.DictWriter(output_file, keys)
     dict_writer.writeheader()
-    dict_writer.writerows(China_year)
+    dict_writer.writerows(country_year)
